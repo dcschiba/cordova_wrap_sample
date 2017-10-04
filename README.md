@@ -1,1 +1,0 @@
-# cordova_wrap_sample
