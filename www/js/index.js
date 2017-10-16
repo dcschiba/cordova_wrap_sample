@@ -1,6 +1,42 @@
-document.getElementById("createFile").addEventListener("click", createFile);
-document.getElementById("readFile").addEventListener("click", readFile);
-document.getElementById("removeFile").addEventListener("click", removeFile);
+var app = {
+    initialize: function () {
+        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+    },
+
+    onDeviceReady: function () {
+        this.initPushNotification();
+        document.getElementById("createFile").addEventListener("click", createFile);
+        document.getElementById("readFile").addEventListener("click", readFile);
+        document.getElementById("removeFile").addEventListener("click", removeFile);
+    },
+    initPushNotification: function () {
+        var push = PushNotification.init({
+            "android": {},
+            "ios": { "alert": "true", "badge": "true", "sound": "true" }
+        });
+
+        push.on('registration', function (data) {
+            // data.registrationId
+            alert(data.registrationId);
+            console.log(data.registrationId);
+        });
+
+        push.on('notification', function (data) {
+            // data.message,
+            // data.title,
+            // data.count,
+            // data.sound,
+            // data.image,
+            // data.additionalData
+        });
+
+        push.on('error', function (e) {
+            // e.message
+        });
+    }
+};
+
+app.initialize();
 
 function createFile() {
     $.ajax({
@@ -91,5 +127,4 @@ function removeFile() {
     function errorCallback(error) {
         alert("ERROR: " + error.code)
     }
-
 }
